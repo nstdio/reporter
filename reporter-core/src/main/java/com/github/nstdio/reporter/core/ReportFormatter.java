@@ -1,8 +1,6 @@
 package com.github.nstdio.reporter.core;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ReportFormatter {
@@ -36,11 +34,24 @@ public class ReportFormatter {
         StringBuilder sb = new StringBuilder();
         sb.append(formatter.header());
 
-        for (ProjectReport report : projectReports) {
+        List<Task> sortedTasks = new ArrayList<>();
+        projectReports.forEach(projectReport -> sortedTasks.addAll(projectReport.today()));
 
-            final List<Task> today = report.today();
-            if (today.size() > 0) {
-                sb.append(formatter.format(today, report.getProjectName()));
+        sortedTasks.sort(Comparator.comparingInt(o -> o.commit().getCommitTime()));
+
+        sortedTasks.get(0).setPeriod(null);
+
+        for (int i = 1, n = sortedTasks.size(); i < n; i++) {
+            sortedTasks.get(i).setPeriod(sortedTasks.get(i - 1).commit());
+        }
+
+        final Map<String, List<Task>> collect = sortedTasks
+                .stream()
+                .collect(Collectors.groupingBy(Task::getProject));
+
+        for (Map.Entry<String, List<Task>> entry : collect.entrySet()) {
+            if (entry.getValue().size() > 0) {
+                sb.append(formatter.format(entry.getValue(), entry.getKey()));
             }
         }
 

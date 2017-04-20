@@ -98,7 +98,8 @@ public class GitFacade {
     private Stream<RevCommit> commitsAsStream() {
         return branchesAsStream()
                 .map(ref -> resolve(ref.getName()))
-                .flatMap(this::commitsAsStream);
+                .flatMap(this::commitsAsStream)
+                .distinct();
     }
 
     private ObjectId resolve(String branchName) {

@@ -63,13 +63,7 @@ public class ProjectReport {
             return tasks;
         }
 
-        tasks.add(Task.from(commits.get(0)));
-
-        for (int i = 1, n = commits.size(); i < n; i++) {
-            final Task from = Task.from(commits.get(i), commits.get(i - 1));
-            tasks.add(from);
-
-        }
+        commits.forEach(commit -> tasks.add(Task.from(project, commit)));
 
         return tasks;
     }
