@@ -124,12 +124,12 @@ public class ReportFormatter {
 
         @Override
         public String header() {
-            return "<p>Hi All,</p><br><p>Today I've worked on following tasks:</p>";
+            return "<html><body><p>Hi All,</p><p>Today I've worked on following tasks:</p>";
         }
 
         @Override
         public String footer() {
-            return "<p>Thanks!</p>";
+            return "<p>Thanks!</p></body></html>";
         }
 
         @Override

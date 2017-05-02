@@ -5,6 +5,9 @@ import org.apache.commons.mail.Email;
 import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.SimpleEmail;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class EmailSender {
 
     public void send(Credentials credential, String message, String from, String[] to, OutputFormat format) {
@@ -19,17 +22,27 @@ public class EmailSender {
 
             email.setSSLOnConnect(true);
             email.setStartTLSEnabled(true);
-
             email.setFrom(from);
-            email.setSubject("TestMail");
-            email.setMsg(message);
-
+            email.setSubject(subject());
+            email.setCharset("UTF-8");
             email.addTo(to);
+
+            if (email instanceof HtmlEmail) {
+                ((HtmlEmail) email).setHtmlMsg(message);
+            } else {
+                email.setMsg(message);
+            }
 
             email.send();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private String subject() {
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
+
+        return String.format("Report - %s", dateFormatter.format(new Date()));
     }
 
     private Email email(OutputFormat format) {

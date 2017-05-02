@@ -7,7 +7,7 @@
     <parent>
         <artifactId>reporter</artifactId>
         <groupId>com.github.nstdio</groupId>
-        <version>0.0.1</version>
+        <version>0.0.2</version>
     </parent>
 
     <artifactId>reporter-cli</artifactId>
