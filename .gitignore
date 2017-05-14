@@ -1,4 +1,4 @@
 *.iml
 .idea
 out
-/reporter-core/src/main/java/com/github/nstdio/reporter/core/Main.java
+/reporter-core/src/com.github.nstdio.reporter.gui.main/java/com/github/nstdio/reporter/core/com.github.nstdio.reporter.gui.App.java

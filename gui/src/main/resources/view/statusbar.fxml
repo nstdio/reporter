@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.*?>
+<fx:root xmlns:fx="http://javafx.com/fxml/1" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/8.0.112">
+    <VBox BorderPane.alignment="CENTER">
+        <Separator prefWidth="200.0"/>
+        <HBox alignment="CENTER_LEFT" spacing="4.0">
+            <padding>
+                <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
+            </padding>
+            <ProgressIndicator fx:id="progressIndicator" maxHeight="16.0" maxWidth="16.0"/>
+            <Label fx:id="statusLbl" text="Task in progress"/>
+        </HBox>
+    </VBox>
+</fx:root>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.github.nstdio.reporter.gui.editor.Editor?>
+<?import com.github.nstdio.reporter.gui.menu.MenuBox?>
+<?import com.github.nstdio.reporter.gui.statusbar.StatusBar?>
+<?import javafx.scene.layout.*?>
+<fx:root xmlns:fx="http://javafx.com/fxml/1" type="BorderPane" xmlns="http://javafx.com/javafx/8.0.112">
+    <top>
+
+        <MenuBox fx:id="menuBox" BorderPane.alignment="CENTER" />
+    </top>
+    <center>
+        <VBox BorderPane.alignment="CENTER">
+            <Editor fx:id="editorBox" />
+        </VBox>
+    </center>
+    <bottom>
+        <StatusBar fx:id="statusBar" />
+    </bottom>
+</fx:root>

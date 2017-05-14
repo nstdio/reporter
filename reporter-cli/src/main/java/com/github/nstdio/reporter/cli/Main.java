@@ -4,6 +4,7 @@ import com.github.nstdio.reporter.core.ProjectReport;
 import com.github.nstdio.reporter.core.ReportFormatter;
 import com.github.nstdio.reporter.core.sender.Credentials;
 import com.github.nstdio.reporter.core.sender.EmailSender;
+import org.apache.commons.mail.EmailException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,10 +60,13 @@ public class Main {
                 logger.info("Roger that! Sending email...");
 
                 final Credentials credentials = new Credentials(input.getEmailUsername(), password);
-                emailSender.send(credentials, reportBody, input.getEmailFrom(), input.getEmailTo(), input.getOutputFormat());
-
-                logger.info("Ok!");
-                logger.info("Exiting...");
+                try {
+                    emailSender.send(credentials, reportBody, input.getEmailFrom(), input.getEmailTo(), input.getOutputFormat());
+                    logger.info("Ok!");
+                    logger.info("Exiting...");
+                } catch (EmailException e) {
+                    e.printStackTrace();
+                }
             }, () -> {
                 logger.info("Oh! What a naughty developer.");
                 logger.info("Bye!");

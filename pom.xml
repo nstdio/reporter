@@ -25,6 +25,7 @@
     <modules>
         <module>reporter-cli</module>
         <module>reporter-core</module>
+        <module>gui</module>
     </modules>
 
     <properties>
