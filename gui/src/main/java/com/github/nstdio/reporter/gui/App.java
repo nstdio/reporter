@@ -44,6 +44,11 @@ public class App extends Application {
         }
     }
 
+    private static void exit(WindowEvent event) {
+        Platform.exit();
+        System.exit(0);
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
         Thread.setDefaultUncaughtExceptionHandler(App::threadAwareExceptionHandler);
@@ -52,6 +57,8 @@ public class App extends Application {
         Scene scene = new Scene(root, 600, 575);
 
         stage.addEventHandler(WindowEvent.WINDOW_SHOWN, window -> root.loadAsync());
+        stage.setOnCloseRequest(App::exit);
+
         stage.setTitle("Reporter GUI");
         stage.setScene(scene);
         stage.show();
