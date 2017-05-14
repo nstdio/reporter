@@ -1,53 +1,40 @@
 package com.github.nstdio.reporter.core;
 
-import org.apache.commons.lang3.text.WordUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ProjectReport {
     private final static Logger logger = LoggerFactory.getLogger(ProjectReport.class);
 
     private final GitFacade git;
-    private final String path;
     private final String author;
-    private String project;
+    private final String project;
 
     public ProjectReport(String author, String repoPath) {
+        this(author, repoPath, null);
+    }
+
+    public ProjectReport(String author, String repoPath, String projectName) {
         git = new GitFacade(repoPath);
         this.author = author;
-        path = repoPath;
 
-        determineProjectName();
-    }
-
-    private String projectName() {
-        final Path path = Paths.get(this.path).normalize();
-        String project = path.getName(path.getNameCount() - 2).toString();
-
-        return WordUtils.capitalizeFully(project, new char[]{'_', '-'})
-                .replaceAll("[-_]", " ");
-    }
-
-    private void determineProjectName() {
-        logger.info("Inferring project name from path: {} ", path);
-
-        project = projectName();
-
-        logger.info("Project name is determined: {}", project);
+        if (StringUtils.isEmpty(projectName)) {
+            logger.info("Inferring project name from path: {} ", repoPath);
+            project = FilenameUtils.projectName(repoPath);
+            logger.info("Project name is determined: {}", project);
+        } else {
+            project = projectName;
+        }
     }
 
     public String getProjectName() {
         return project;
-    }
-
-    public void setProjectName(String projectName) {
-        project = projectName;
     }
 
     public List<RevCommit> todayCommits() {
@@ -57,11 +44,12 @@ public class ProjectReport {
     public List<Task> today() {
         final List<RevCommit> commits = todayCommits();
 
-        List<Task> tasks = new ArrayList<>();
         if (commits.size() == 0) {
             logger.info("You have no commits for project {}.", project);
-            return tasks;
+            return Collections.emptyList();
         }
+
+        List<Task> tasks = new ArrayList<>();
 
         commits.forEach(commit -> tasks.add(Task.from(project, commit)));
 
@@ -70,5 +58,6 @@ public class ProjectReport {
 
     public void dispose() {
         git.close();
+        logger.info("{} disposed", project);
     }
 }

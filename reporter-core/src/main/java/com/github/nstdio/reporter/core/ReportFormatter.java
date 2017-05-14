@@ -37,6 +37,10 @@ public class ReportFormatter {
         List<Task> sortedTasks = new ArrayList<>();
         projectReports.forEach(projectReport -> sortedTasks.addAll(projectReport.today()));
 
+        if (sortedTasks.size() == 0) {
+            return null;
+        }
+
         sortedTasks.sort(Comparator.comparingInt(o -> o.commit().getCommitTime()));
 
         sortedTasks.get(0).setPeriod(null);
